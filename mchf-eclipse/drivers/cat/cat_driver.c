@@ -670,7 +670,7 @@ static bool CatDriver_Ft817_EEPROM_Write(uint16_t addr,uint8_t* data_p)
 {
     bool retval = false;
 
-    for(int idx = 0; ft817_eeprom[idx].type != FT817EE_STOP && addr >= ft817_eeprom[idx].start;idx++)
+    for(short idx = 0; ft817_eeprom[idx].type != FT817EE_STOP && addr >= ft817_eeprom[idx].start;idx++)
     {
         if (ft817_eeprom[idx].start <= addr && addr <= ft817_eeprom[idx].end)
         {
@@ -693,7 +693,7 @@ static bool CatDriver_Ft817_EEPROM_Read(uint16_t addr,uint8_t* data_p)
 {
     bool retval = false;
 
-    for(int idx = 0; ft817_eeprom[idx].type != FT817EE_STOP && addr >= ft817_eeprom[idx].start;idx++)
+    for(short idx = 0; ft817_eeprom[idx].type != FT817EE_STOP && addr >= ft817_eeprom[idx].start;idx++)
     {
         if (ft817_eeprom[idx].start <= addr && addr <= ft817_eeprom[idx].end)
         {
@@ -717,9 +717,12 @@ static bool CatDriver_Ft817_EEPROM_Read(uint16_t addr,uint8_t* data_p)
     return retval;
 }
 
-
+//
+// https://www.ka7oei.com/ft817_meow.html
+//
 typedef enum
 {
+    FT817_LOCK_ON       = 0x00,
     FT817_SET_FREQ      = 0x01,
     FT817_GET_FREQ      = 0x03,
     FT817_SPLIT_ON      = 0x02,
@@ -746,7 +749,7 @@ struct FT817 ft817;
 uint8_t CatDriver_Clone_Checksum(uint8_t* buf, size_t len)
 {
     uint8_t retval = 0;
-    for (int idx = 0; idx < len; idx++)
+    for (size_t idx = 0; idx < len; idx++)
     {
         retval += buf[idx];
     }
@@ -1301,6 +1304,7 @@ static void CatDriver_HandleCommands()
             bc = 1;
             break;
         }
+        case FT817_LOCK_ON: /* Not implemented */
         case FT817_NOOP: /* FF sent out by HRD */
             break;
             // default:

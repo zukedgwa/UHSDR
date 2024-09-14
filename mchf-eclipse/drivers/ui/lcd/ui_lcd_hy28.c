@@ -678,7 +678,7 @@ void UiLcdHy28_SpiInit(bool hispeed, mchf_display_types_t display_type)
 void UiLcdHy28_GpioInit(mchf_display_types_t display_type)
 {
 
-    GPIO_InitTypeDef GPIO_InitStructure;
+    GPIO_InitTypeDef GPIO_InitStructure = {};
     // Common misc pins settings
     GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_PP;
     GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_HIGH;
@@ -1499,7 +1499,7 @@ void UiLcdHy28_DrawStraightLineTriple(ushort x, ushort y, ushort Length, uchar D
 
 void UiLcdHy28_DrawHorizLineWithGrad(ushort x, ushort y, ushort Length,ushort gradient_start)
 {
-    uint32_t i = 0,j = 0;
+    ushort i = 0,j = 0;
     ushort     k = gradient_start;
 
     UiLcdHy28_OpenBulkWrite(x,Length,y,1);
@@ -1511,9 +1511,13 @@ void UiLcdHy28_DrawHorizLineWithGrad(ushort x, ushort y, ushort Length,ushort gr
         if(j == GRADIENT_STEP)
         {
             if(i < (Length/2))
+            {
                 k += (GRADIENT_STEP/2);
+            }
             else
+            {
                 k -= (GRADIENT_STEP/2);
+            }
 
             j = 0;
         }
@@ -1544,11 +1548,10 @@ static void UiLcdHy28_BulkWriteColor(uint16_t Color, uint32_t len)
 #ifdef USE_SPI_DMA
     if(UiLcdHy28_SpiDisplayUsed())
     {
-        int idx;
 
         UiLcdHy28_BulkPixel_BufferInit();
 
-        for (idx = 0; idx < len; idx++)
+        for (uint32_t idx = 0; idx < len; idx++)
         {
             UiLcdHy28_BulkPixel_Put(Color);
         }
@@ -1595,13 +1598,13 @@ static void UiLcdHy28_DrawChar_8bit(ushort x, ushort y, char symb,ushort Color, 
 
     if(sym_ptr == NULL) // NON EXISTING SYMBOL
     {
-        for(int cntrY=0;cntrY < Font_H; cntrY++)
+        for(uint8_t cntrY=0;cntrY < Font_H; cntrY++)
         {
-            for(int cntrX=0; cntrX < Font_W; cntrX++)
+            for(uint8_t cntrX=0; cntrX < Font_W; cntrX++)
             {
                 UiLcdHy28_BulkPixel_Put(Color);
             }
-            for(int cntrX=0; cntrX < charSpacing; cntrX++)
+            for(uint16_t cntrX=0; cntrX < charSpacing; cntrX++)
             {
                 UiLcdHy28_BulkPixel_Put(bkColor);
             }

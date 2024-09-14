@@ -302,7 +302,7 @@ void TransceiverStateInit(void)
 
     ts.keyer_mode.active = false;
     ts.keyer_mode.button_recording = KEYER_BUTTON_NONE;
-    for (int idx = 0; idx<KEYER_BUTTONS; idx++)
+    for (short idx = 0; idx<KEYER_BUTTONS; idx++)
     {
 
     	ts.keyer_mode.macro[idx][0] = '\0';
