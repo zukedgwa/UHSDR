@@ -258,7 +258,7 @@ void TransceiverStateInit(void)
     //CONFIG LOADED:ts.waterfall.contrast = WATERFALL_CONTRAST_DEFAULT;		// contrast setting for waterfall display
     ts.waterfall.scheduler=0;
 
-//    ts.fft_window_type = FFT_WINDOW_DEFAULT;			// FFT Windowing type
+    //ts.fft_window_type = FFT_WINDOW_DEFAULT;			// FFT Windowing type
     ts.dvmode = false;							        // disable "DV" mode RX/TX functions by default
 
     ts.txrx_switch_audio_muting_timing = 0;					// timing value used for muting TX audio when keying PTT to suppress "click" or "thump"
@@ -351,7 +351,7 @@ int mchfMain(void)
     // Set default transceiver state
     TransceiverStateInit();
 
-     Board_RamSizeDetection();
+    Board_RamSizeDetection();
 
 #ifdef TESTCPLUSPLUS
     test_call_cpp();
